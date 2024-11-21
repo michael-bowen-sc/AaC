@@ -1,0 +1,41 @@
+name: Build and Publish AaC Image
+
+on:
+  push:
+    branches:
+      - main  # Trigger the workflow on push to main branch
+  pull_request:
+    branches:
+      - main  # Trigger the workflow on pull requests targeting the main branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Log in to GitHub Container Registry (GHCR)
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Build Docker image from Dockerfile
+      - name: Build Docker image
+        run: |
+          docker build -t ghcr.io/${{ github.repository_owner }}/aac:${{ github.sha }} .
+
+      # Push Docker image to GitHub Container Registry
+      - name: Push Docker image to GHCR
+        run: |
+          docker push ghcr.io/${{ github.repository_owner }}/aac:${{ github.sha }}
+
+      # Optionally, you can push a 'latest' tag in addition to the commit SHA tag
+      - name: Push latest tag to GHCR
+        run: |
+          docker tag ghcr.io/${{ github.repository_owner }}/aac:${{ github.sha }} ghcr.io/${{ github.repository_owner }}/aac:latest
+          docker push ghcr.io/${{ github.repository_owner }}/aac:latest
