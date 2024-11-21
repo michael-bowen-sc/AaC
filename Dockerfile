@@ -11,10 +11,11 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Download and install Structurizr CLI
-RUN echo "STRUCTURIZR_VERSION is $STRUCTURIZR_VERSION" && \
-    curl -sSL https://github.com/structurizr/cli/releases/download/v${STRUCTURIZR_VERSION}/structurizr-cli.zip -o structurizr-cli.tar.gz && \
-    tar -xzvf structurizr-cli.tar.gz && \
-    mv structurizr-cli /usr/local/bin/structurizr-cli
+RUN brew -v
+# RUN echo "STRUCTURIZR_VERSION is $STRUCTURIZR_VERSION" && \
+  #  curl -sSL https://github.com/structurizr/cli/releases/download/v${STRUCTURIZR_VERSION}/structurizr-cli.zip -o structurizr-cli.tar.gz && \
+   # tar -xzvf structurizr-cli.tar.gz && \
+   # mv structurizr-cli /usr/local/bin/structurizr-cli
 
 # Set the working directory to /workspace, which will be mounted by GitHub Actions or other CI tools
 WORKDIR /workspace
