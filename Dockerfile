@@ -5,11 +5,12 @@ FROM mcr.microsoft.com/devcontainers/universal:linux
 RUN apt-get update && apt-get install -y \
     curl \
     tar \
+    unzip \
     && rm -rf /var/lib/apt/lists/*
 
 # Download and install Structurizr CLI
-RUN wget -q https://github.com/structurizr/cli/releases/download/v2024.11.04/structurizr-cli.zip -o structurizr-cli.zip && \
-    tar -xzvf structurizr-cli.tar.gz && \
+RUN curl -L https://github.com/structurizr/cli/releases/download/v2024.11.04/structurizr-cli.zip -o structurizr-cli.zip && \
+    unzip structurizr-cli.zip && \
     mv structurizr-cli /usr/local/bin/structurizr-cli
 
 # Set the working directory to /workspace, which will be mounted by GitHub Actions or other CI tools
