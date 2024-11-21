@@ -1,9 +1,6 @@
 # Use devcontainer Universal image as the base image since Structurizr CLI is a Java application and java is included
 FROM mcr.microsoft.com/devcontainers/universal:linux
 
-# Set environment variables
-ENV STRUCTURIZR_VERSION=2024.11.04
-
 # Install curl, tar, and any other dependencies required to download and extract Structurizr CLI
 RUN apt-get update && apt-get install -y \
     curl \
@@ -11,8 +8,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Download and install Structurizr CLI
-RUN echo "STRUCTURIZR_VERSION is $STRUCTURIZR_VERSION" && \
-    wget -q https://github.com/structurizr/cli/releases/download/v${STRUCTURIZR_VERSION}/structurizr-cli.zip -o structurizr-cli.zip && \
+RUN wget -q https://github.com/structurizr/cli/releases/download/v2024.11.04/structurizr-cli.zip -o structurizr-cli.zip && \
     tar -xzvf structurizr-cli.tar.gz && \
     mv structurizr-cli /usr/local/bin/structurizr-cli
 
